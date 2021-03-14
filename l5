@@ -1,0 +1,21 @@
+Termin oddania listy dla grupy czwartkowej- do zajęć 17.12.2020, dla pozostałych 20.12.2020. Łączna liczba punktów (20pkt)
+
+API: 
+django https://www.django-rest-framework.org/#quickstart
+flask https://programminghistorian.org/en/lessons/creating-apis-with-python-and-flask
+Możecie użyć dowolnego frameworka / biblioteki, powyższe to tylko przykład.
+
+Bazując na poprzedniej liście będziemy wystawiać własne API z informacjami uzyskanymi z bazy danych oraz API NBP.
+
+
+1. Wystawić API udostępniające pobrane i uzupełnione o brakujące dni kursy walut. Przyjąć dogodną strukturę ścieżki URL - taką, która w systematyczny sposób pozwoli pobierać wartości historycznych notowań użytkownikom Waszego API. Można wzorować się na API NBP. Obsłużyć wyjątki takie jak zapytanie o kurs spoza posiadanego zakresu. (5pkt)
+
+2. Do wystawionych w pierwszym zadaniu danych dodać do każdego notowania property interpolated (true / false). Interpolated ma być ustawione na true dla dni, które swoją wartość przybrały jako tę z poprzedzającego dnia posiadającego notowanie. False w przeciwnym przypadku. (5pkt)
+
+3. Wystawić informację o łącznej sprzedaży w poszczególnych dniach podaną w dwóch walutach. Oryginalnej i przeliczonej po kursie NBP. Użytkownik API ma mieć możliwość zapytania o sumę transakcji z dnia X i dowiedzieć się jaka ona była w walucie 1 oraz 2 po przeliczeniu kursem z danego dnia. Ważne, by policzyć te wartości i zapisać wcześniej - nie liczyć ich "w locie". (5pkt)
+
+4. Zabezpieczyć API przed zbyt częstymi zapytaniami (ustawić limit zapytań na jednostkę czasu). W wersji minimalnej zrobić limit łączny na wszystkie zapytania (2.5pkt). W wersji pełnej - targetować użytkownika i nakładać limit per użytkownik (2.5pkt).
+
+
+(*) Mile widziane - dla chętnych, niestety bez punktów - wdrożyć Wasze API na serwer.
+(**) Stworzyć własne readme do projektu, w którym opiszecie instrukcje instalacji, zależności (paczek), strukturę adresacji API, limity czasowe i ogólny sposób używania projektu- wszystkie przydatne informacje.

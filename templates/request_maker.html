@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+<h1>Kreator zapytań</h1>
+<div>
+    <label for="api_type_dropdown">API type:</label>
+    <select name="api_type" id="api_type_dropdown">
+        <option value="exchangerates">exchangerates</option>
+        <option value="sum">sum</option>
+    </select>
+    <div id="currency_div" hidden>
+        <label for="currency_dropdown">Currency:</label>
+        <select name="currency" id="currency_dropdown">
+            <option value="pln">pln</option>
+            <option value="usd">usd</option>
+        </select>
+    </div>
+</div>
+<div>
+    <label for="single_date_only_checkbox">Single date only:</label>
+    <input type="checkbox" id="single_date_only_checkbox">
+    <br>
+    <label for="single_date">Single date:</label>
+    <input type="date" id="single_date" min="2012-07-01" max="2016-02-29" disabled>
+    <br>
+    <label for="start_date">Start date:</label>
+    <input type="date" id="start_date" min="2012-07-01" max="2016-02-29">
+    <br>
+    <label for="end_date">End data:</label>
+    <input type="date" id="end_date" min="2012-07-01" max="2016-02-29">
+</div>
+<button type="button" id="button_generate_link" onclick="generateLink()">Generate</button>
+<br>
+<label for="api_link">API link:</label>
+<textarea id="api_link"></textarea>
+<br>
+<label for="response_value">Response:</label>
+<textarea id="response_value"></textarea>
+<br>
+<p id="response_table"></p>
+<br>
+<div class="chart">
+    <canvas id="chart" width="200" height="100"></canvas>
+</div>
+</body>
+</html>
+
+<script type=text/javascript src="{{url_for('static', filename='js/api_handler.js') }}"></script>

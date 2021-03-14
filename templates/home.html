@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+<h1>NorthWindAPI</h1>
+NorthwindAPI to projekt pozwalający na pozyskiwanie danych o sumie sprzedaży z danych dni, wraz z możliwością
+przeliczenia tych wartości na złotówki po kursie z danego dnia. Możliwe jest takźe uzyskanie samego interesującego nas
+kursu.
+<br>
+Jeżeli chcesz używać tej aplikacji na własnym serwerze, informacje o sposobie instalacji, jak i same pliki, można
+znaleźć tutaj:
+<a href="https://github.com/konellnid/skryptowe20/tree/NorthWindAPI">NorthWindAPI</a>
+
+<h2>API</h2>
+<h3>/api/exchangerates/{date}</h3>
+<h3>/api/exchangerates/{start_date}/{end_date}</h3>
+Powyższe zapytania w polu 'result' zwracają informacje o znalezionych kursach dolara do złotówki. Żądanie z pojedynczą
+datą zwróci przelicznik z danego dnia, żądanie z dwoma zwróci dane z podanego zakresu (włacznie z end_date). Dla
+każdego pola w 'result' dostępne są trzy informacje:
+<ul>
+    <li>date - data</li>
+    <li>rate - kurs z danego dnia</li>
+    <li>is_interpolated - true, jeżeli w danym dniu nie był dostępny kurs (kurs jest wtedy z poprzedniego dostępnego
+        dnia); w innym przypadku false
+    </li>
+</ul>
+Oprócz tego w odpowiedzi znajdują się użyte w żądaniu wartości (date lub start_date z end_date).
+
+
+<h3>/api/sum/{currency}/{date}/</h3>
+<h3>/api/sum/{currency}/{start_date}/{end_date}</h3>
+Te żądania zwracają sumę wartości transakcji z danego dnia. W polu 'result' dostępne są zwrócone wyniki, gdzie
+
+<ul>
+    <li>date - data</li>
+    <li>sum - suma wartości transakcji z danego dnia</li>
+</ul>
+Oprócz tego w odpowiedzi znajdują się użyte w żądaniu wartości (date lub start_date z end_date).
+<br>
+<br>
+<br>
+<h2>Kreator zapytań</h2>
+Dostępny jest prosty kreator zapytań:
+<h3><a href="{{url_for('request_maker') }}">KREATOR</a></h3>
+Dodatkowo, kreator tworzy tabelę i wykres, obrazując otrzymane dane.
+<br>
+<br>
+<br>
+<h2>Ograniczenia API</h2>
+<h3>date, start_date, end_date</h3>
+Daty powinny być w formacie RRRR-MM-DD. Przy miesiącach jednocyfrowych możliwe jest pominięcie zera przy wpisywaniu
+miesiąca ("2014-01-13" jest równoważne "2014-1-13"). W żądaniach korzystających ze start_date i end_date, end_date nie
+może wystąpić przed start_date. W przypadku błędnego formatu daty lub złej kolejności dat w zakresie, zostanie zwrócony
+kod błędu: 400. Daty w bazie danych pochodzą z okresu od 2012-07-01 do 2016-02-29. Możliwe jest jednak zapytanie o daty
+spoza tego zakresu, wtedy daty spoza zakresu w bazie nie zostaną uwzględnione. Przykładowo, zapytanie o dane między
+2012-05-10 do 2012-07-03, zwróci dane od 2012-07-01 do 2012-07-03. Zapytanie przy użyciu tylko jednej daty, jeżeli jest
+ona spoza zakresu, zwróci pusty wynik.
+
+<h3>currency</h3>
+Dostępne są jedynie dwie waluty do wyboru: PLN (złotówki) i USD (dolary amerykańskie). Wielkość liter nie ma tutaj
+znaczenia: "PLN", "pln", "pLn" są sobie równoważne. W przypadku błędnie podanej waluty, zostanie zwrócony kod błędu:
+400.
+
+<h3>liczba żądań</h3>
+Możliwe jest wysłanie 20 żądań na minutę, liczone osobno dla każdego użytkownika. W przypadku przkroczeniu limitu
+otrzymamy wynik: Too Many Requests.
+<br>
+<br>
+<br>
+<h2>Przykładowe zapytania</h2>
+<h3>/api/exchangerates/2015-12-31</h3>
+zapytanie o przelicznik dolarów na złotówki w dniu 2015-12-31
+
+<h3>/api/exchangerates/2015-12-12/2015-12-24</h3>
+zapytanie o przelicznik dolarów na złotówki w dniach od 2015-12-12 do 2015-12-24 (włącznie)
+
+<h3>/api/sum/usd/2015-04-5</h3>
+zapytanie o sumę transakcji w dniu 2015-04-05, wartości podane w dolarach
+
+<h3>/api/sum/pln/2013-03-04/2013-4-18</h3>
+zapytanie o sumę transakcji z zakresu od 2013-03-04 do 2013-4-18 (włącznie), wartości podane w złotówkach
+
+</body>
+</html>
+
+<script type=text/javascript src="{{url_for('static', filename='js/api_handler.js') }}"></script>
